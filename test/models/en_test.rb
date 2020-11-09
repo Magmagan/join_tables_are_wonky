@@ -16,4 +16,15 @@ class EnTest < ActiveSupport::TestCase
     assert en.save
     assert_includes En.find_by_name("nn").ems, em
   end
+
+  test "join table goes both ways as expected" do
+    em = Em.create(mane: "mem")
+
+    en = En.new
+    en.name = "nnn"
+    en.ems << em
+
+    assert en.save
+    assert_includes Em.where(ens: En.where(name: "nnn")), em
+  end
 end
